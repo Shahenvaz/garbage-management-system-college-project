@@ -1,0 +1,74 @@
+<%- include('admin-header'); -%>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <div id="edit-driver" style="display: none;">
+            <%- include('edit-driver'); -%>
+        </div>
+
+        <div id="show-allDriver" style="display: none;">
+            <%- include('show-all-driver'); %>
+        </div>
+        <div id="show-dashboard">
+            <%- include('admin-dashboard-main'); -%>
+        </div>
+    </div>
+        <!-- Bootstrap core JavaScript-->
+        <script src="assets/js/vendor/jquery/jquery.min.js"></script>
+        <script src="assets/js/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="assets/js/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
+
+        <!-- Page level plugins -->
+        <script src="assets/js/vendor/chart.js/Chart.min.js"></script>
+
+        <!-- Page level custom scripts -->
+        <script src="js/demo/chart-area-demo.js"></script>
+        <script src="js/demo/chart-pie-demo.js"></script>
+
+
+        <script>
+
+            async function showHide(params) {
+                document.getElementById('show-dashboard').style.display = "none"
+                document.getElementById('edit-driver').style.display = "none"
+                document.getElementById('show-allDriver').style.display = "none"
+                document.getElementById(params).style.display = "block"
+            }
+        </script>
+
+        </body>
+
+        </html>
+
+
+
+
+
+
+
+
+        <!--===============================================================================================-->
+        <script src="assets/js/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="assets/js/vendor/bootstrap/js/popper.js"></script>
+        <script src="assets/js/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="assets/js/vendor/select2/select2.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="assets/js/vendor/tilt/tilt.jquery.min.js"></script>
+        <script>
+            $('.js-tilt').tilt({
+                scale: 1.1
+            })
+        </script>
+        <!--===============================================================================================-->
+        <script src="js/main.js"></script>
+
+        </body>
+
+        </html>

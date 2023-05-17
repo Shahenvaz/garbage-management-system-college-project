@@ -1,0 +1,57 @@
+<div class="container mt-3">
+    <h2>Filterable Table</h2>
+    <p>Type something in the input field to search the table for first names, last names or emails:</p>  
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    <br>
+    <table class="table table-bordered bg-white">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Working Location</th>
+          <th>Mobile Number</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Gender</th>
+          <th>Opertion</th>
+        </tr>
+      </thead>
+      <tbody id="myTable">
+        <% for(var i=0; i < driverInfo.length; i++ ){ %>
+            <tr>
+                <td>
+                    <img class="img-fluid"
+                        style="width: 40px;height: 40px; border-radius: 50%;"
+                        src="<%= driverInfo[i]['driver_photo'] %>"
+                        alt="missing">
+                    &nbsp; <%= driverInfo[i]['driver-name'] %>
+                </td>
+
+                <td><%= driverInfo[i]['working-location'] %></td>
+                <td><%= driverInfo[i]['driver-mobile'] %></td>
+                <td><%= driverInfo[i]['driver-email'] %></td>
+                <td><%= driverInfo[i]['driver-address'] %></td>
+                <td><%= driverInfo[i]['driver-gender'] %></td>
+                    
+                <td>
+                    <i class="ml-2 fas fa-edit text-black-50"
+                        aria-hidden="true"></i>
+                      <a href="/delete-driver/<%= driverInfo[i]['driver_id']%>">  <i class="fas fa-trash m-3 text-danger"></i></a>
+                </td>
+            </tr>
+        <% } %>
+      </tbody>
+    </table>
+    
+    <p>Note that we start the search in tbody, to prevent filtering the table headers.</p>
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+    </script>

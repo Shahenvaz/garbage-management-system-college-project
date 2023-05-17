@@ -1,0 +1,32 @@
+<%- include('../header') %>
+
+<div class="main" style="height: 100%;display: flex;justify-content: center;align-items: center; background-color: rgb(123, 202, 123);">
+    <div style=" background-color: rgb(246, 243, 243); display: flex; border-radius: 2%; overflow: hidden;">
+        <div class="left">
+            <img src="assets/img/dustbin/dusbin.jpg" alt="" srcset="" style="height: 600px; width: 400px;">
+        </div>
+        
+        <div style="padding: 40px; padding-top: 140px; width: 500px; ">
+            <form action="/add-dustbin" method="post" class="form">
+                <h2 style="color: rgb(78, 75, 75); font-weight: 500;">
+                    Dustbin Registration
+                </h2>
+                <input type="text" class="form-control" name="dustbin-name" placeholder="Enter Dustbin  Name" style="margin-top: 20px;">
+                <label  class="mt-3"> Location </label>
+                <input type="text" class="form-control" name="dustbin-location" id="" placeholder="Location">
+                <label for="" class="mt-3"> Managed Under </label>
+                <select name="dustbin-driver" id="" class="form-control select">
+                    <% for(var i=0; i < driverName.length; i++ ) { %>
+                    <option value="<%= driverName[i]['driver_id'] %>">
+                        <%= driverName[i]["driver-name"] %>
+                    </option>
+                    <% } %>
+                </select>
+                
+                <input type="submit" value="+ Register Dustbin" class="btn btn-outline-success mt-4">
+
+            </form>
+        </div>
+    
+    </div>
+</div>

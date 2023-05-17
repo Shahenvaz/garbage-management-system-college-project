@@ -1,0 +1,108 @@
+<%- include('../header'); %>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="assets/css/driver/main.css">
+</head>
+
+<div class="form-body mr-4 mt-5">
+    <div class="row">
+        <div class="form-holder">
+            <div class="form-content">
+                <div class="form-items">
+                    <h3>Register Driver</h3>
+                    <p>Fill in the data below.</p>
+                    <form class="requires-validation" action="/driver-register" method="post" enctype="multipart/form-data">
+
+                        <div class="col-md-12">
+                           <input class="form-control" type="text" name="driver-name" placeholder="Full Name" required>
+                           <div class="valid-feedback">Username field is valid!</div>
+                           <div class="invalid-feedback">Username field cannot be blank!</div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <input class="form-control" type="email" name="driver-email" placeholder="E-mail Address" required>
+                             <div class="valid-feedback">Email field is valid!</div>
+                             <div class="invalid-feedback">Email field cannot be blank!</div>
+                        </div>
+                        
+            
+                        <div class="col-md-12 mt-3">
+                            <input class="form-control" name="driver-mobile" placeholder="Mobile Number" required>
+                             <div class="valid-feedback">Email field is valid!</div>
+                             <div class="invalid-feedback">Email field cannot be blank!</div>
+                        </div>
+
+                       <div class="col-md-12">
+                            <select class="form-select mt-3" required name="working-location">
+                                  <option selected disabled value="" >Please select Working Location</option>
+                                  <option value="Delhi">Delhi</option>
+                                  <option value="Noida">Noida</option>
+                                  <option value="Prayagraj">Prayagraj</option>
+                           </select>
+                            <div class="valid-feedback">You selected a position!</div>
+                            <div class="invalid-feedback">Please select a position!</div>
+                       </div>
+
+
+                       <div class="col-md-12 mt-3">
+                         <textarea class="form-control" name="driver-address" placeholder="Enter Address"> </textarea>
+                         <div class="valid-feedback">Password field is valid!</div>
+                         <div class="invalid-feedback">Password field cannot be blank!</div>
+                     </div>
+
+
+                       <div class="col-md-12">
+                          <input class="form-control" type="password" name="driver-password" placeholder="Password" required>
+                           <div class="valid-feedback">Password field is valid!</div>
+                           <div class="invalid-feedback">Password field cannot be blank!</div>
+                       </div>
+
+
+                       <div class="col-md-12 mt-3">
+                        <label class="mb-3 mr-1" for="gender">Gender: </label>
+
+                        <input type="radio" class="btn-check" name="driver-gender" id="male" autocomplete="off" required value="male">
+                        <label class="btn btn-sm btn-outline-secondary" for="male">Male</label>
+
+                        <input type="radio" class="btn-check" name="driver-gender" id="female" autocomplete="off" required value="female"> 
+                        <label class="btn btn-sm btn-outline-secondary" for="female">Female</label>
+
+                           <div class="valid-feedback mv-up">You selected a gender!</div>
+                            <div class="invalid-feedback my-up show">Please select a gender!</div>
+                        </div>
+
+
+
+                       <div class="col-md-12 mt-3">
+                        <label class="mb-3 mr-1" for="gender">Upload photo: </label>
+
+                        <input type="file" class="btn btn-outline-secondary" required name="driver-photo">
+                        </div>
+
+
+
+                        
+                        <div class="col-md-12">
+                            <input class="form-control" type="text" name="admin-pass" placeholder="Admin Password" required>
+                             <div class="valid-feedback">Email field is valid!</div>
+                            <% if(locals.status)
+                             { %>
+                             <div class="invalid-feedback" style="display: block;">Invalid Admin Password</div>
+                            <% }%>
+                        </div>
+                        
+                    <div class="form-check ml-3 mt-2">
+                      <input class="form-check-input" type="checkbox" id="invalidCheck" required name="reset-password">
+                      <label class="form-check-label">Allow Driver to set their own password when they log in first time</label>
+                    </div>
+              
+
+                        <div class="form-button mt-3">
+                            <button id="submit" type="submit" class="btn btn-primary">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

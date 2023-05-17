@@ -1,0 +1,73 @@
+<%- include('../header') %>
+
+
+<div class="main" style="height: 100%;display: flex;justify-content: center;align-items: center; background-color: rgb(123, 202, 123);">
+    <div style=" background-color: rgb(246, 243, 243); display: flex; border-radius: 2%; overflow: hidden;">
+        <div class="left">
+            <img src="assets/img/dustbin/dusbin.jpg" alt="" srcset="" style="height: 600px; width: 400px;">
+        </div>
+        
+        <div style="padding: 40px; padding-top: 140px; width: 1000px; ">
+            <div class="container mt-3">
+                <h2>Select Which dustbin to fill</h2>
+                <input class="form-control" id="myInput" type="text" placeholder="Search..">
+                <br>
+                <table class="table  bg-white">
+                  <thead>
+                    <tr>
+                      <th>Dustbin Name</th>
+                    
+                      <th>Dustbin Location</th>
+                      <th>Dustbin Manage By</th>
+
+                      <th>Max Weigth</th>
+
+                      <th>Current Weigth</th>
+
+                      <th colspan="2"> </th>
+                    </tr>
+                  </thead>
+                  <tbody id="myTable" style="overflow: scroll;">
+                    <% for(var i=0; i < dustbinInfo.length; i++ ) { %>
+                    <tr>
+                        <td>
+                            <%= dustbinInfo[i]["dustbin-name"] %>
+                        </td>
+
+                        <td>
+                            <%= dustbinInfo[i]["dustbin-location"] %>
+                        </td>
+                        <td>
+                            <%= dustbinInfo[i].DustbinAllDetails[0]["driver-name"] %>
+                        </td>
+                        <td>
+                            <%= dustbinData[i].DustbinStatus[0]["dustbinMaxWeight"] %>
+                        </td>
+                        <td>
+                            <%= dustbinData[i].DustbinStatus[0]["dustbinCurWeight"] %>
+                        </td>
+                        <td colspan="2">
+                            <a href="/modifyDustin?id=<%= dustbinData[i].id %>" class="btn btn-primary">
+                                Fill <i class="fas fa-arrow-circle-right"></i> 
+                            </a>
+                        </td>
+                    </tr>
+                    <% } %>
+                  </tbody>
+        </div>
+    
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+    </script>
