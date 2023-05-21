@@ -9,7 +9,7 @@ app.use(express.static('public'))
 app.set('view engine', 'ejs')
 
 
-//multer 
+//multer
 const multer  = require('multer')
 const storage = multer.diskStorage({
 
@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 
     },
 
-  
+
 
     filename: function(req, file, cb) {
 
@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
 
 });
 
-  
+
 
 var upload = multer({ storage: storage })
 // cookies work start here
@@ -44,6 +44,9 @@ app.use(cookieParser());
 app.get('/',async(req,res)=>{
     let adminInfo = req.cookies.adminInformation
     let data = await db.getAllAdminDetails()
+    if(req.cookies.driverInformation)
+    res.render('index',{adminInfo:adminInfo,data:data,data1:1})
+    else
     res.render('index',{adminInfo:adminInfo,data:data})
 })
 
@@ -58,10 +61,22 @@ app.get('/admin-login',(req,res)=>{
 })
 
 app.get('/admin-sign-up',(req,res)=>{
-    res.render('admin/signup')
+    let warning = req.cookies.warning
+    res.clearCookie('warning')
+    res.render('admin/signup',{warning:warning})
 })
 
 app.post('/admin-sign-up',(req,res)=>{
+    if(req.body["admin-pass"].length < 8)
+    {
+        res.cookie("warning","password length must be 8 charector")
+        res.redirect('/admin-sign-up')
+    }
+    else if (req.body["admin-key"] != "gms123")
+    {
+        res.cookie("warning","wrong admin key is provided")
+        res.redirect('/admin-sign-up')
+    }
     db.adminSignUp(req.body)
     res.redirect('/admin-login')
 })
@@ -90,8 +105,7 @@ app.get('/admin-dashboard',async(req,res)=>{
     let data = await db.getAllAdminDetails()
     let dustbinInfo = await db.getAllDustbin()
     let dustbinData = await db.getAllDustinData()
-    console.log(dustbinData)
-    
+
     let status = req.cookies.status
     res.clearCookie('status')
     if(adminInfo)
@@ -146,7 +160,61 @@ app.get('/delete-driver/:id',async(req,res)=>{
     res.redirect('/admin-dashboard')
 })
 
+app.get('/garbage-collector-login',(req,res)=>{
+    if(req.cookies.driverInformation)
+        res.redirect('/driver-dashboard')
+    let warning = req.cookies.warning
+    res.clearCookie('warning')
+    res.render('driver/login',{warning:warning})
+})
 
+app.post('/garbage-collector-login', async(req,res)=>{
+    console.log(req.body)
+    result = await db.driverLogin(req.body)
+    console.log(result)
+    if(result.length)
+    {
+        res.cookie('driverInformation',result)
+        res.redirect('/driver-dashboard')
+    }
+    else
+    {
+        res.cookie("warning","wrong email id or password unable to login")
+        res.redirect('/garbage-collector-login')
+    }
+})
+
+app.get('/driver-dustbin-data',async (req,res)=>{
+    response = await db.getAllDustbinOfDriver()
+    console.log(response)
+    var results = [];
+
+        var toSearch = req.cookies.driverInformation[0].driver_id;
+
+        for (var i = 0; i < response.length; i++) {
+            if(response[i]["dustbin-driver"] == toSearch)
+            {
+                results.push(response[i])
+            }
+        }
+        console.log(results[0].DustbinStatus)
+
+        console.log(results[1].DustbinStatus)
+        
+    res.render('driver/data',{dustbinData:results})
+})
+
+app.get('/driver-dashboard',(req,res)=>{
+    if(req.cookies.driverInformation)
+    res.render('driver/index',{data1: 1 })
+    else
+    res.render('driver/index',{data1: 0 })
+})
+
+app.get('/driver-logout',(req,res)=>{
+    res.clearCookie('driverInformation')
+    res.redirect('/')
+})
 // driver task end here
 
 
@@ -173,14 +241,24 @@ app.get('/dustbin-filler',async(req,res)=>{
 })
 
 app.get('/modifyDustin',async(req,res) =>{
-    res.render('dustbin/modifyDustbin')
+    let singleDustbinData = await db.getOneDustbin({id:req.query.id})
+    res.render('dustbin/modifyDustbin',{singleDustbinData,singleDustbinData})
 } )
+
+app.get('/updateDustbin',async(req,res)=>{
+    let singleDustbinData = await db.updateOneDustbin({id:req.query.id})
+    res.json(singleDustbinData)
+})
+app.get('/clearDustbin',async(req,res) =>{
+    await db.clearOneDustbin({dustbinId:req.query.id})
+    res.redirect('/driver-dashboard')
+})
 // dustbin end here
 
 
 
 
-// id generat
+// id generatw
 function idGenerator()
 {
     var id = '';

@@ -1,0 +1,39 @@
+<div class="row">
+    <% for(var i=0; i < dustbinData.length ; i++ ) { %>
+
+        <div class="col-sm-6">
+            <div class="card" style="width: 18rem;">
+                <% if(dustbinData[i].DustbinStatus[0]["dustbinCurWeight"] >= 80) { %>
+                <img class="card-img-top" src="/assets/img/dustbin/dustbin-danger.gif" alt="" >
+
+                    <% } else if(dustbinData[i].DustbinStatus[0]["dustbinCurWeight"] >= 50) { %>
+                        
+                <img class="card-img-top" src="/assets/img/dustbin/dustbin-medium.gif" alt="">
+                        
+                    <% } else if(dustbinData[i].DustbinStatus[0]["dustbinCurWeight"] >= 0) { %>
+           
+                        <img class="card-img-top" src="/assets/img/dustbin/dustbin-normal.gif" alt="">
+                    <% } %>
+                <div class="card-body">
+                    <h5 class="card-title">Dustbin Name :
+                        <%= dustbinData[i]["dustbin-name"] %>
+                    </h5>
+                    <h5 class="card-title">Dustbin Location : <%= dustbinData[i]["dustbin-location"] %></h5>
+                    <% if(dustbinData[i].DustbinStatus[0]["dustbinCurWeight"] >= 80) { %>
+                    <h5 class="card-title">Status :  <%= dustbinData[i].DustbinStatus[0]["dustbinCurWeight"] %> % </h5>
+                    <h5 class="card-title text-danger" > Priority : High </h5>
+
+                    <% } else if(dustbinData[i].DustbinStatus[0]["dustbinCurWeight"] >= 50) { %>
+                        <h5 class="card-title">Status :  <%= dustbinData[i].DustbinStatus[0]["dustbinCurWeight"] %>  %</h5>
+                        <h5 class="card-title text-primary" > Priority : Medium </h5>
+                        
+                    <% } else if(dustbinData[i].DustbinStatus[0]["dustbinCurWeight"] >= 0) { %>
+                            <h5 class="card-title">Status :  <%= dustbinData[i].DustbinStatus[0]["dustbinCurWeight"] %> %</h5>
+                            <h5 class="card-title text-success" > Priority : low </h5>
+                    <% } %>
+                    <a href="/clearDustbin?id=<%= dustbinData[i]['id'] %>" class="btn btn-primary">Mark As Empty </a>
+                </div>
+            </div>
+        </div>
+        <% } %>
+</div>

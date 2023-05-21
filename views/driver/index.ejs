@@ -1,0 +1,32 @@
+<%- include('../header') %>
+
+
+    <div class="main"
+        style="height: 100%;display: flex;justify-content: center;align-items: center; background-color: rgb(123, 202, 123);">
+        <div style="overflow-x: scroll;" id="parent"> 
+
+            
+        </div>
+   </div>
+
+<script>
+
+const xhttp = new XMLHttpRequest();
+
+                        xhttp.onload = function () {
+                            document.getElementById("parent").innerHTML=this.responseText
+                        }
+                        xhttp.open("GET", `http://localhost:8081/driver-dustbin-data`, true);
+                        xhttp.send();
+
+    setInterval(()=>{
+
+const xhttp1 = new XMLHttpRequest();
+xhttp1.onload = function () {
+    document.getElementById("parent").innerHTML=this.responseText
+}
+xhttp1.open("GET", 'http://localhost:8081/driver-dustbin-data', true);
+xhttp1.send();
+
+    },3000)
+</script>

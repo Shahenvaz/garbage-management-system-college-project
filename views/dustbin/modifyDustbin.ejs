@@ -1,5 +1,92 @@
 <%- include('../header') %>
 
 
-<div class="main" style="height: 100%;display: flex;justify-content: center;align-items: center; background-color: rgb(123, 202, 123);">
-   
+    <div class="main"
+        style="height: 100%;display: flex;justify-content: center;align-items: center; background-color: rgb(123, 202, 123);">
+        <div style="background-color: antiquewhite; width: 100%; height: 88%; margin-top: 70px;">
+            <div>
+                <table class="table text-light bg-dark">
+                    <tr>
+                        <td>
+                            <b> Dustbin Id : </b>
+                            <span id="dustbinId"><%= singleDustbinData["id"] %></span>
+                        </td>
+                        <td>
+                            <b> Dustbin Name : </b>
+                            <%= singleDustbinData["dustbin-name"] %>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            <b>Managed By : </b>
+                            <%= singleDustbinData["driver-name"] %>
+                        </td>
+                    </tr>
+                </table>
+                <div style="display: flex;">
+                    <div>
+                        <img src="assets/img/dustbin/dustbin-start.jpg" alt="" style="height: 550px; width: 900px;"
+                            id="img">
+                    </div>
+                    <div class="pt-2 " style="rotate: 270deg;margin-left: 0px;  width: 550px;">
+
+                        <div class="progress mb-4">
+                            <div class="progress-bar bg-success" role="progressbar"
+                                style="width: <%= singleDustbinData['dustbinCurWeight'] %>%" aria-valuenow="80"
+                                aria-valuemin="80" aria-valuemax="100" id="progress"></div>
+                        </div>
+                        <h4 class="small font-weight-bold">0% <span class="float-right">100%</span></h4>
+                    </div>
+                    <div>
+                        <div class="card m-1" style="position: absolute; right: 550px;">
+                            <h4 class="card-header">Dustbin Status</h4>
+                            <div class="card-body">
+                                <h4 class="card-title text-success">Current Weigth :
+                                    <span id="cur">
+                                        <%= singleDustbinData["dustbinCurWeight"] %>
+                                    </span>
+                                </h4>
+                                <h4 class="card-title text-danger">MaxWeight Weigth : <%=
+                                        singleDustbinData["dustbinMaxWeight"] %>
+                                </h4>
+                                <button onclick="fun()" class="btn btn-primary"> Throw Waste into dustbin</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+
+                var myTimeOut;
+                function fun() {
+                    clearTimeout(myTimeOut)
+                    let width = document.getElementById("progress").style.width
+                    width = width.replace('%', '')
+                    width = Number(width)
+                    if (width >= 100) {
+                        alert('cannot fill dustbin it is already filled')
+                        stop()
+                    }
+                    else {
+
+                        document.getElementById("img").src = "assets/img/dustbin/recycle-waste.gif"
+
+                        const xhttp = new XMLHttpRequest();
+                        let id = document.getElementById("dustbinId").innerHTML
+
+                        xhttp.onload = function () {
+                            responce = JSON.parse(this.responseText)
+                            document.getElementById("cur").innerHTML = responce.dustbinCurWeight
+                            document.getElementById("progress").style.width = `${responce.dustbinCurWeight}%`
+                        }
+                        xhttp.open("GET", `http://localhost:8081/updateDustbin?id=${id}`, true);
+                        xhttp.send();
+                        stop()
+                    }
+                }
+                function stop() {
+                    myTimeOut = setTimeout(() => document.getElementById("img").src = "assets/img/dustbin/dustbin-start.jpg", 3000)
+                }
+            </script>

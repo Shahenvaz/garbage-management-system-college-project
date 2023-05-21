@@ -12,16 +12,22 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="#hero"><span class="fa fa-home"> Home </span></a></li>
-          <li><a class="nav-link scrollto" href="#about"><span class="fa fa-info-circle" aria-hidden="true"> About us</span></a></li>
-          <li><a class="nav-link scrollto" href="/#cta"><span class="fa fa-trash"> Complain</span></a></li>
-          <li><a class="nav-link scrollto"  href="#cta"><span class="fa fa-edit"> Preview Complain </span></a></li>
+          <li><a class="nav-link scrollto active" href="/#hero"><span class="fa fa-home"> Home </span></a></li>
+          <li><a class="nav-link scrollto" href="/dustbin-filler"><span class="fa fa-info-circle" aria-hidden="true"> Dustbin Filler</span></a></li>
+          <% if(locals.data1){
+             %>
+             <% if(data1 == 1){ %>
+          <li><a class="nav-link scrollto" href="/driver-dashboard"><span class="fa fa-trash"> View Dustbin</span></a></li>
+          <li><a class="nav-link scrollto" href="/driver-logout"><span class="fa fa-sign-out-alt"> LOG OUT</span></a></li>
+          <% } } %>
           <!-- <li><a class="nav-link scrollto" href="#contact">Contact</a></li> -->
-          <li><a class="nav-link scrollto" href="#faq"><span class="fa fa-question-circle"> FAQ</span></a></li>
+
           
           <% if(locals.adminInfo) { %>
           
           <li><a class="nav-link scrollto" href="/admin-dashboard"><span class="fa fa-user"> welcome <%= adminInfo[0]["admin-name"] %></span></a></li>
+
+          <li><a class="nav-link scrollto"  href="#cta"><span class="fa fa-edit"> Preview Complain </span></a></li>
           <li><a class="nav-link scrollto" href="/admin-logout"><span class="fas fa-sign-out-alt">Logout</span></a></li>
           <% }%>
         </ul>
