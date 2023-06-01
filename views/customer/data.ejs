@@ -1,0 +1,39 @@
+<% if(locals.responce[0]) { %>
+<h3 class="p-1">Dustbin clean on <%= responce[0].date %> </h3>
+<table class="table p-5">
+    <tr>
+        <th>
+            dusbin Name 
+        </th>
+        <th>
+            dustbin location
+        </th>
+        <th>
+            Weight of dustbin at the time of cleaning
+        </th>
+        <th>
+            Manageed By
+        </th>
+    </tr>
+    <% for(var i=0; i < responce.length; i++ ) { %>
+        <tr>
+            <td>
+                <%= responce[i]["dustbin-name"] %>
+            </td>
+
+            <td>
+                <%= responce[i]["dustbin-location"] %>
+            </td>
+            
+            <td>
+                <%= responce[i]["dustbinCurWeight"] %>
+            </td>
+            <td>
+                <%= responce[i]["driverName"] %>
+            </td>
+        </tr>
+    <% } %>
+</table>
+<% } else { %>
+    <h3 class="text-danger"> No record found on that date </h3>
+    <% } %>

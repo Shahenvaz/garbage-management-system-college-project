@@ -1,0 +1,24 @@
+<%- include('../header') %>
+
+    <div
+        style="display: flex;justify-content: center;align-items: center; background-color:  rgb(123, 202, 123); height: 100%;">
+        <div class="p-5" style="display: flex;background-color: rgba(9, 9, 7, 0.35); border-radius: 20px;">
+            <div>
+                <img src="assets/img/customer/login.jpeg" alt="not found" sizes="" style="width: 600px;">
+            </div>
+            <div class="ml-3">
+                <h2 class="text-success"> Please FIll Below Form to register Complaint</h2>
+                <form action="/complaint" method="post" class="form">
+                    <label for="" class="label p-2 text-light" >Enter Your Email</label>
+                    <input type="email" class="form-control" name="userEmail" required>
+                    <label for="" class="label p-2 text-light" >Enter Your Name</label>
+                    <input type="text" class="form-control" name="userName" required>
+                    <label for="" class="p-2 text-light">Enter Your Message Below</label>
+                    <textarea name="message" id="" cols="30" rows="6" class="form-control" required></textarea>
+                    <div class="text-center m-2">
+                    <input type="submit" value="fill form" class="btn btn-success">
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>

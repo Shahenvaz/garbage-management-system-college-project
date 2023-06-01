@@ -82,6 +82,10 @@ app.post('/admin-sign-up',(req,res)=>{
 })
 
 app.post('/admin-login',async (req,res)=>{
+    if(req.cookies.driverInformation)
+    {
+        res.clearCookie('driverInformation')
+    }
     result = await db.adminLoginCheck(req.body)
     if(result.length)
     {
@@ -105,11 +109,13 @@ app.get('/admin-dashboard',async(req,res)=>{
     let data = await db.getAllAdminDetails()
     let dustbinInfo = await db.getAllDustbin()
     let dustbinData = await db.getAllDustinData()
+    let feedback = await db.getAllFeedBack()
+    let countData = await db.countEverything()
 
     let status = req.cookies.status
     res.clearCookie('status')
     if(adminInfo)
-    res.render('admin/dashboard',{adminInfo:adminInfo,data:data,driverInfo:driverInfo,dustbinInfo:dustbinInfo,dustbinData:dustbinData,status:status})
+    res.render('admin/dashboard',{adminInfo:adminInfo,data:data,driverInfo:driverInfo,dustbinInfo:dustbinInfo,dustbinData:dustbinData,status:status,feedback:feedback,countData:countData})
     else
     res.redirect('/admin-login')
 })
@@ -169,9 +175,7 @@ app.get('/garbage-collector-login',(req,res)=>{
 })
 
 app.post('/garbage-collector-login', async(req,res)=>{
-    console.log(req.body)
     result = await db.driverLogin(req.body)
-    console.log(result)
     if(result.length)
     {
         res.cookie('driverInformation',result)
@@ -186,7 +190,6 @@ app.post('/garbage-collector-login', async(req,res)=>{
 
 app.get('/driver-dustbin-data',async (req,res)=>{
     response = await db.getAllDustbinOfDriver()
-    console.log(response)
     var results = [];
 
         var toSearch = req.cookies.driverInformation[0].driver_id;
@@ -197,9 +200,6 @@ app.get('/driver-dustbin-data',async (req,res)=>{
                 results.push(response[i])
             }
         }
-        console.log(results[0].DustbinStatus)
-
-        console.log(results[1].DustbinStatus)
         
     res.render('driver/data',{dustbinData:results})
 })
@@ -214,6 +214,12 @@ app.get('/driver-dashboard',(req,res)=>{
 app.get('/driver-logout',(req,res)=>{
     res.clearCookie('driverInformation')
     res.redirect('/')
+})
+
+app.post('/update-driver',async(req,res)=>{
+    console.log(req.body)
+    await db.updateOneDriver(req.body)
+    res.redirect('/admin-dashboard')
 })
 // driver task end here
 
@@ -254,6 +260,53 @@ app.get('/clearDustbin',async(req,res) =>{
     res.redirect('/driver-dashboard')
 })
 // dustbin end here
+
+
+//customer feedback
+
+app.get('/feedback',(req,res)=>{
+    res.render('customer/complaint.ejs')
+})
+app.post('/complaint',async(req,res)=>{
+    let id = await idGenerator()
+    req.body = Object.assign(req.body,{"complainid":id})
+    res.cookie("complainId",id)
+    await db.registerComplaint(req.body)
+    res.redirect('/success')
+})
+app.get('/success',(req,res)=>{
+    if(req.cookies.complainId)
+    {
+    let id = req.cookies.complainId
+    res.clearCookie("complainId")
+    res.render('customer/success',{complainId:id})
+    }
+    else
+    {
+        res.redirect('/')
+    }
+})
+app.get('/remove-complain',async(req,res)=>{
+    await db.removeComplain({complainid:req.query.id})
+    res.redirect('/admin-dashboard')
+})
+app.get('/mark-as-complete',async(req,res)=>{
+    await db.markAsComplete({complainid:req.query.id})
+    res.redirect('/admin-dashboard')
+})
+app.get('/getReport',async(req,res)=>{
+    let responce = await db.getReport({"date" : req.query.date})
+    console.log(responce)
+    res.render('customer/data',{responce:responce})
+})
+app.get('/getDailyReport',async(req,res)=>{
+    let responce = await db.getReport({"date" : req.query.date})
+})
+//
+
+
+
+
 
 
 
